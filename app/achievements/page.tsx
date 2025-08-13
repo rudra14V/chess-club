@@ -15,14 +15,18 @@ import BackButton from "@/components/back-button"
 export default function AchievementsPage() {
   const [achievements, setAchievements] = useState<any[]>([])
   const [selectedAchievement, setSelectedAchievement] = useState<any | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadAchievements = async () => {
       try {
+        setLoading(true)
         const achievementsData = await api.getAchievements()
         setAchievements(Array.isArray(achievementsData) ? achievementsData : [])
       } catch (error) {
         console.error("Error loading achievements:", error)
+      } finally {
+        setLoading(false)
       }
     }
     loadAchievements()
@@ -62,6 +66,19 @@ export default function AchievementsPage() {
     }
   }
 
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString)
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    } catch (error) {
+      return "Date not available"
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-brown-900 to-black text-white relative overflow-hidden">
       <ChessRainfall />
@@ -84,7 +101,12 @@ export default function AchievementsPage() {
             </p>
           </motion.div>
 
-          {achievements.length > 0 ? (
+          {loading ? (
+            <div className="text-center text-gray-400 py-12">
+              <div className="animate-spin w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
+              <p className="text-xl">Loading achievements...</p>
+            </div>
+          ) : achievements.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {achievements.map((achievement, index) => (
                 <motion.div
@@ -117,6 +139,9 @@ export default function AchievementsPage() {
                       </span>
                       <span className="text-yellow-400 font-bold">{achievement.points} pts</span>
                     </div>
+                    {achievement.created_at && (
+                      <div className="text-sm text-gray-400">Achieved: {formatDate(achievement.created_at)}</div>
+                    )}
                   </div>
 
                   <p className="text-gray-400 mb-4 line-clamp-3">
@@ -190,6 +215,16 @@ export default function AchievementsPage() {
                   </div>
                 </div>
               </div>
+
+              {selectedAchievement.created_at && (
+                <div className="flex items-center text-gray-300">
+                  <span className="text-cyan-400 text-xl mr-2">📅</span>
+                  <div>
+                    <div className="text-sm text-gray-400">Date Achieved</div>
+                    <div className="text-white font-semibold">{formatDate(selectedAchievement.created_at)}</div>
+                  </div>
+                </div>
+              )}
 
               <div>
                 <h4 className="text-lg font-semibold text-cyan-400 mb-2">Description</h4>

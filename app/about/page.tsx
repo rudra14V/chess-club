@@ -60,14 +60,19 @@ const founders = [
 
 export default function AboutPage() {
   const [players, setPlayers] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadPlayers = async () => {
       try {
+        setLoading(true)
         const playersData = await api.getPlayers()
+        console.log("Loaded players:", playersData)
         setPlayers(Array.isArray(playersData) ? playersData : [])
       } catch (error) {
         console.error("Error loading players:", error)
+      } finally {
+        setLoading(false)
       }
     }
     loadPlayers()
@@ -216,7 +221,12 @@ export default function AboutPage() {
             </div>
 
             <h2 className="text-3xl font-bold text-center text-cyan-400 mb-12">Current Team Members</h2>
-            {players.length > 0 ? (
+            {loading ? (
+              <div className="text-center text-gray-400 py-12">
+                <div className="animate-spin w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
+                <p className="text-xl">Loading team members...</p>
+              </div>
+            ) : players.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {players.map((player, index) => (
                   <motion.div
@@ -250,6 +260,11 @@ export default function AboutPage() {
                       )}
                     </div>
                     {player.bio && <p className="text-gray-400 text-sm mt-2 line-clamp-2">{player.bio}</p>}
+                    {player.join_date && (
+                      <p className="text-xs text-gray-500 mt-2">
+                        Joined: {new Date(player.join_date).toLocaleDateString()}
+                      </p>
+                    )}
                   </motion.div>
                 ))}
               </div>
