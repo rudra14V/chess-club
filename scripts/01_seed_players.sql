@@ -1,0 +1,10 @@
+-- Adding sample players data for the chess club
+INSERT INTO players (name, email, rating, house, position, bio, avatar_url, joined_date, is_active) VALUES
+('Magnus Carlsen', 'magnus@knightsclub.com', 2830, 'Grandmaster', 'Club President', 'World Chess Champion and founder of The Knights. Known for his exceptional endgame technique and intuitive play.', '/chess-founder-portrait.png', '2020-01-15', true),
+('Hikaru Nakamura', 'hikaru@knightsclub.com', 2736, 'Master', 'Vice President', 'Speed chess specialist and popular streamer. Co-founded The Knights to promote chess education.', '/chess-co-founder-portrait.png', '2020-02-01', true),
+('Alexandra Botez', 'alex@knightsclub.com', 2100, 'Expert', 'Tournament Director', 'Chess educator and content creator. Organizes club tournaments and training sessions.', '/chess-member-portrait.png', '2020-03-10', true),
+('Garry Kasparov', 'garry@knightsclub.com', 2812, 'Grandmaster', 'Honorary Member', 'Former World Champion and chess legend. Provides strategic guidance to club members.', '/chess-former-leader.png', '2020-01-20', true),
+('Anna Rudolf', 'anna@knightsclub.com', 2393, 'International Master', 'Training Coordinator', 'International Master specializing in chess education and player development.', '/placeholder.svg?height=200&width=200', '2020-04-05', true),
+('Daniel Naroditsky', 'daniel@knightsclub.com', 2647, 'Grandmaster', 'Youth Coach', 'Grandmaster and renowned chess educator focusing on youth development programs.', '/placeholder.svg?height=200&width=200', '2020-05-12', true),
+('Levy Rozman', 'levy@knightsclub.com', 2421, 'International Master', 'Content Manager', 'Popular chess educator and content creator, manages club social media and educational content.', '/placeholder.svg?height=200&width=200', '2020-06-18', true),
+('Judit Polgar', 'judit@knightsclub.com', 2735, 'Grandmaster', 'Women\'s Chess Ambassador', 'Strongest female chess player in history, promotes women\'s participation in chess.', '/placeholder.svg?height=200&width=200', '2020-07-22', true);
